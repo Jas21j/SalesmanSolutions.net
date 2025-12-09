@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salesman Solutions - Tranquil Sophistication</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600;1,700&family=Lato:wght@300;400;700&family=Pinyon+Script&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        :root {
+            --vibrant-blue: #0D1B3A;
+            --secondary-blue: #1E3A5F;
+            --cream: #FDFCF0;
+            --beige: #F5F5DC;
+            --muted-gold: #C5A065;
+        }
+        
+        body {
+            font-family: 'Lato', sans-serif;
+            font-weight: 400;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #333333;
+        }
+        
+        /* Typography - Primary Heading */
+        .h1-hero {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 5rem;
+            line-height: 1.1;
+            letter-spacing: -0.01em;
+        }
+        
+        @media (max-width: 768px) {
+            .h1-hero {
+                font-size: 3rem;
+            }
+        }
+        
+        /* Typography - Secondary Heading */
+        .h2-section {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 3rem;
+            line-height: 1.2;
+        }
+        
+        @media (max-width: 768px) {
+            .h2-section {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Cursive/Script Accent */
+        .cursive-accent {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 2.5rem;
+            color: var(--muted-gold);
+        }
+        
+        @media (max-width: 768px) {
+            .cursive-accent {
+                font-size: 1.75rem;
+            }
+        }
+        
+        /* Subhead with wide tracking */
+        .subhead {
+            font-family: 'Lato', sans-serif;
+            font-weight: 400;
+            font-size: 0.875rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+        
+        /* Hero Background */
+        .hero-bg {
+            background: linear-gradient(rgba(13, 27, 58, 0.75), rgba(13, 27, 58, 0.85)),
+                        url('https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80') center/cover;
+            min-height: 100vh;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-bg {
+                background: linear-gradient(rgba(13, 27, 58, 0.85), rgba(13, 27, 58, 0.95)),
+                            url('https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover;
+            }
+        }
+        
+        /* Button Styles */
+        .btn-outline {
+            background-color: transparent;
+            color: var(--cream);
+            padding: 1rem 2.5rem;
+            border: 2px solid var(--cream);
+            border-radius: 0.5rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: all 1000ms ease;
+            font-family: 'Lato', sans-serif;
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--cream);
+            color: var(--vibrant-blue);
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary {
+            background-color: var(--muted-gold);
+            color: var(--vibrant-blue);
+            padding: 1rem 2.5rem;
+            border: 2px solid var(--muted-gold);
+            border-radius: 0.5rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            transition: all 1000ms ease;
+            font-family: 'Lato', sans-serif;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-blue);
+            border-color: var(--secondary-blue);
+            color: var(--cream);
+            transform: translateY(-2px);
+        }
+        
+        /* Section Padding - Generous */
+        .section-padding {
+            padding: 8rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .section-padding {
+                padding: 5rem 0;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .section-padding {
+                padding: 8rem 0;
+            }
+        }
+        
+        /* Product Card */
+        .product-card {
+            background: #FDFCF0;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 1000ms ease;
+            overflow: hidden;
+            border: 1px solid rgba(13, 27, 58, 0.1);
+        }
+        
+        .product-card:hover {
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            transform: translateY(-8px);
+            border-color: var(--muted-gold);
+        }
+        
+        /* Service Card */
+        .service-card {
+            background: var(--cream);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            border: 1px solid rgba(18, 28, 47, 0.1);
+            transition: all 1000ms ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Stat Number */
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 5rem;
+            line-height: 1;
+            color: var(--muted-gold);
+        }
+        
+        @media (max-width: 768px) {
+            .stat-number {
+                font-size: 3rem;
+            }
+        }
+        
+        /* Image with soft borders */
+        .soft-image {
+            border-radius: 1.5rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Navigation */
+        nav a {
+            transition: color 1000ms ease;
+            font-family: 'Lato', sans-serif;
+            letter-spacing: 0.05em;
+        }
+        
+        nav a:hover {
+            color: var(--muted-gold);
+        }
+        
+        /* Logo */
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+        }
+        
+        /* Partner Logo */
+        .partner-logo {
+            opacity: 0.7;
+            transition: all 1000ms ease;
+            filter: grayscale(100%);
+        }
+        
+        .partner-logo:hover {
+            opacity: 1;
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+        
+        /* Portfolio Item */
+        .portfolio-item {
+            transition: all 1000ms ease;
+        }
+        
+        .portfolio-item:hover {
+            transform: translateY(-8px);
+        }
+        
+        .portfolio-item img {
+            transition: all 1000ms ease;
+        }
+        
+        .portfolio-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        /* Overlapping sections */
+        .overlap-up {
+            margin-top: -4rem;
+            position: relative;
+            z-index: 10;
+        }
+        
+        @media (max-width: 768px) {
+            .overlap-up {
+                margin-top: -2rem;
+            }
+        }
+        
+        /* Fade animations */
+        .fade-in {
+            opacity: 0;
+            transition: opacity 1000ms ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-white">
+    
+    <!-- Navigation -->
+    <nav class="fixed w-full top-0 z-50 bg-transparent transition-all duration-1000" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-24">
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#services" class="text-white font-light">Services</a>
+                    <a href="#saatva" class="text-white font-light">Collection</a>
+                    <a href="#about" class="text-white font-light">About</a>
+                </div>
+                <div class="logo text-white text-2xl text-center flex-1">
+                    SALESMAN SOLUTIONS
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#about" class="text-white font-light">Experience</a>
+                    <a href="#contact" class="text-white font-light">Contact</a>
+                    <a href="tel:+19548306310" class="btn-outline text-sm py-2 px-4 inline-block">Inquire</a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-4 py-4 space-y-4">
+                <a href="#services" class="block text-[#0D1B3A] font-light">Services</a>
+                <a href="#saatva" class="block text-[#0D1B3A] font-light">Collection</a>
+                <a href="#about" class="block text-[#0D1B3A] font-light">About</a>
+                <a href="#contact" class="block text-[#0D1B3A] font-light">Contact</a>
+                <a href="tel:+19548306310" class="btn-primary w-full text-center block">Inquire</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-bg flex items-center justify-center text-white relative pt-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="subhead text-white mb-6 opacity-90" data-aos="fade-up" data-aos-duration="1000">Premium Hospitality Partner</p>
+            <h1 class="h1-hero mb-8 text-[#FDFCF0]" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                Escape into a World of <span class="italic">Sophistication</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-12 text-gray-200 max-w-3xl mx-auto font-light leading-relaxed" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                Where luxury feels effortless and comfort is always near.
+            </p>
+            <a href="tel:+19548306310" class="btn-outline inline-block" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+                Discover Our Suites
+            </a>
+        </div>
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <svg class="w-6 h-6 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Core Services Section - Staggered Layout -->
+    <section id="services" class="bg-[#FDFCF0] section-padding">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Service 1: Text Left, Image Right -->
+            <div class="grid md:grid-cols-2 gap-16 items-center mb-32">
+                <div data-aos="fade-right" data-aos-duration="1000">
+                    <p class="subhead text-[#0D1B3A] mb-4">Luxury Logistics</p>
+                    <h2 class="h2-section text-[#0D1B3A] mb-6">Luxury Mattress <span class="cursive-accent text-2xl">Logistics</span></h2>
+                    <p class="text-lg text-[#0D1B3A] leading-relaxed mb-8">
+                        Seamless removal and white-glove restocking. A sanctuary of timeless comfort.
+                    </p>
+                    <a href="tel:+19548306310" class="btn-primary inline-block">Learn More</a>
+                </div>
+                <div data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                         alt="Luxury hotel bedding" 
+                         class="soft-image w-full h-[500px] object-cover">
+                </div>
+            </div>
+            
+            <!-- Service 2: Image Left, Text Right -->
+            <div class="grid md:grid-cols-2 gap-16 items-center mb-32">
+                <div class="md:order-2" data-aos="fade-left" data-aos-duration="1000">
+                    <p class="subhead text-[#0D1B3A] mb-4">Renovation & Design</p>
+                    <h2 class="h2-section text-[#0D1B3A] mb-6">Hotel <span class="cursive-accent text-2xl">Renovation</span> & Design</h2>
+                    <p class="text-lg text-[#0D1B3A] leading-relaxed mb-8">
+                        Designed with elegance, inspired by natural beauty. Custom wallpapers and interior artistry.
+                    </p>
+                    <a href="tel:+19548306310" class="btn-primary inline-block">Explore Services</a>
+                </div>
+                <div class="md:order-1" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                         alt="Luxury hotel renovation and design" 
+                         class="soft-image w-full h-[500px] object-cover"
+                         onerror="this.src='https://images.unsplash.com/photo-1618221195710-dd6b41faaea8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'">
+                </div>
+            </div>
+            
+            <!-- Service 3: Text Left, Image Right -->
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div data-aos="fade-right" data-aos-duration="1000">
+                    <p class="subhead text-[#0D1B3A] mb-4">Strategic Partnership</p>
+                    <h2 class="h2-section text-[#0D1B3A] mb-6"><span class="cursive-accent text-2xl">Strategic</span> Partnership</h2>
+                    <p class="text-lg text-[#0D1B3A] leading-relaxed mb-8">
+                        Curating unforgettable experiences tailored to your every desire.
+                    </p>
+                    <a href="mailto:jaheimsalesman@gmail.com" class="btn-primary inline-block">Partner With Us</a>
+                </div>
+                <div data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                         alt="Strategic hospitality partnership" 
+                         class="soft-image w-full h-[500px] object-cover"
+                         onerror="this.src='https://images.unsplash.com/photo-1556761175-5973dc4f807a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hotel Credibility Partners Section -->
+    <section id="partners" class="bg-[#FDFCF0] section-padding">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up" data-aos-duration="1000">
+                <h2 class="h2-section text-[#0D1B3A] mb-4">
+                    Trusted by the <span class="cursive-accent text-2xl">Finest</span> Hospitality Brands
+                </h2>
+                <p class="text-lg text-[#0D1B3A] max-w-2xl mx-auto leading-relaxed">
+                    We partner with the world's most prestigious hotel chains to deliver exceptional service and luxury solutions.
+                </p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center justify-items-center">
+                <div class="partner-logo" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+                    <div class="text-[#0D1B3A] font-bold text-xl tracking-wider">RITZ-CARLTON</div>
+                </div>
+                <div class="partner-logo" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="text-[#0D1B3A] font-bold text-xl tracking-wider">FOUR SEASONS</div>
+                </div>
+                <div class="partner-logo" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+                    <div class="text-[#0D1B3A] font-bold text-xl tracking-wider">HILTON</div>
+                </div>
+                <div class="partner-logo" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                    <div class="text-[#0D1B3A] font-bold text-xl tracking-wider">MARRIOTT</div>
+                </div>
+                <div class="partner-logo" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="500">
+                    <div class="text-[#0D1B3A] font-bold text-xl tracking-wider">HYATT</div>
+                </div>
+                <div class="partner-logo" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+                    <div class="text-[#0D1B3A] font-bold text-xl tracking-wider">WYNDHAM</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Testimonials Section -->
+    <section id="testimonials" class="bg-[#0D1B3A] text-[#FDFCF0] section-padding">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up" data-aos-duration="1000">
+                <h2 class="h2-section mb-4 text-[#FDFCF0]">
+                    Client Reviews: The <span class="cursive-accent text-2xl">Essence</span> of Five-Star Service
+                </h2>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-[#FDFCF0] text-[#0D1B3A] p-8 rounded-2xl shadow-xl" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+                    <div class="flex mb-4">
+                        <svg class="w-5 h-5 text-[#C5A065]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-[#C5A065]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-[#C5A065]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-[#C5A065]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-[#C5A065]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    </div>
+                    <p class="text-[#0D1B3A] mb-6 italic leading-relaxed">
+                        "Salesman Solutions transformed our entire property with seamless execution. Their white-glove service exceeded all expectations, and our guests have noticed the difference."
+                    </p>
+                    <p class="text-[#0D1B3A] font-semibold">— Michael Chen, General Manager</p>
+                    <p class="text-sm text-[#64748B]">The Ritz-Carlton, Miami</p>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="bg-[#FDFCF0] text-[#0D1B3A] p-8 rounded-2xl shadow-xl" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="flex mb-4">
+                        <svg class="w-5 h-5 text-[#C5A065]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-[#C5A065]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-[#C5A065]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-[#C5A065]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-[#C5A065]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    </div>
+                    <p class="text-[#0D1B3A] mb-6 italic leading-relaxed">
+                        "The renovation work was flawless, and the mattress logistics were handled with such precision. Zero disruption to our operations."
+                    </p>
+                    <p class="text-[#0D1B3A] font-semibold">— Sarah Williams, Director of Operations</p>
+                    <p class="text-sm text-[#64748B]">Four Seasons Resort, Palm Beach</p>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="bg-[#FDFCF0] text-[#0D1B3A] p-8 rounded-2xl shadow-xl" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+                    <div class="flex mb-4">
+                        <svg class="w-5 h-5 text-[#C5A065]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-[#C5A065]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-[#C5A065]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-[#C5A065]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-[#C5A065]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    </div>
+                    <p class="text-[#0D1B3A] mb-6 italic leading-relaxed">
+                        "Professional, reliable, and detail-oriented. Salesman Solutions has become an essential partner in maintaining our property's luxury standards."
+                    </p>
+                    <p class="text-[#0D1B3A] font-semibold">— David Rodriguez, Property Manager</p>
+                    <p class="text-sm text-[#64748B]">Marriott Marquis, New York</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Saatva Collection Section -->
+    <section id="saatva" class="bg-[#0D1B3A] text-white section-padding overlap-up">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up" data-aos-duration="1000">
+                <h2 class="h2-section mb-4 text-[#FDFCF0]">
+                    Our Signature <span class="cursive-accent">Sleep</span> Collection
+                </h2>
+                <p class="text-lg text-gray-200 max-w-3xl mx-auto mb-8 leading-relaxed">
+                    Saatva carries a wide range of mattresses including innerspring, memory foam, latex, and hybrid models. All delivered with free white glove service (never compressed in a box).
+                </p>
+                <div class="inline-block px-6 py-3 bg-[#C5A065] text-[#0D1B3A] rounded-lg font-semibold">
+                    Retail Prices Shown Below. Wholesale Pricing is Negotiable.
+                </div>
+            </div>
+            
+            <!-- Product Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
+                <!-- Product 1: Saatva Classic -->
+                <div class="product-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Saatva Classic Mattress" 
+                         class="w-full h-48 object-cover bg-gray-100"
+                         onerror="this.src='https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                    <div class="p-6">
+                        <h3 class="serif-title text-xl font-semibold mb-2 text-[#0D1B3A]">Saatva Classic</h3>
+                        <p class="text-sm text-[#64748B] mb-4">Flagship innerspring. Customizable height & firmness.</p>
+                        <div class="text-[#C5A065] font-semibold text-lg">$1,489 - $2,139</div>
+                    </div>
+                </div>
+                
+                <!-- Product 2: Memory Foam Hybrid -->
+                <div class="product-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Saatva Memory Foam Hybrid Mattress" 
+                         class="w-full h-48 object-cover bg-gray-100"
+                         onerror="this.src='https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                    <div class="p-6">
+                        <h3 class="serif-title text-xl font-semibold mb-2 text-[#0D1B3A]">Memory Foam Hybrid</h3>
+                        <p class="text-sm text-[#64748B] mb-4">Gel-infused memory foam. Medium-firm.</p>
+                        <div class="text-[#C5A065] font-semibold text-lg">$1,399 - $2,049</div>
+                    </div>
+                </div>
+                
+                <!-- Product 3: Latex Hybrid -->
+                <div class="product-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Saatva Latex Hybrid Mattress" 
+                         class="w-full h-48 object-cover bg-gray-100"
+                         onerror="this.src='https://images.unsplash.com/photo-1556228578-0d85b1a4d571?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                    <div class="p-6">
+                        <h3 class="serif-title text-xl font-semibold mb-2 text-[#0D1B3A]">Latex Hybrid</h3>
+                        <p class="text-sm text-[#64748B] mb-4">Organic & responsive. Cooler sleep.</p>
+                        <div class="text-[#C5A065] font-semibold text-lg">$1,679 - $2,329</div>
+                    </div>
+                </div>
+                
+                <!-- Product 4: Zenhaven -->
+                <div class="product-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Zenhaven Latex Mattress" 
+                         class="w-full h-48 object-cover bg-gray-100"
+                         onerror="this.src='https://images.unsplash.com/photo-1556228578-0d85b1a4d571?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                    <div class="p-6">
+                        <h3 class="serif-title text-xl font-semibold mb-2 text-[#0D1B3A]">Zenhaven</h3>
+                        <p class="text-sm text-[#64748B] mb-4">100% Talalay Latex. Dual-sided/flippable.</p>
+                        <div class="text-[#C5A065] font-semibold text-lg">~$2,799</div>
+                    </div>
+                </div>
+                
+                <!-- Product 5: Contour5 -->
+                <div class="product-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Saatva Contour5 Mattress" 
+                         class="w-full h-48 object-cover bg-gray-100"
+                         onerror="this.src='https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                    <div class="p-6">
+                        <h3 class="serif-title text-xl font-semibold mb-2 text-[#0D1B3A]">Contour5</h3>
+                        <p class="text-sm text-[#64748B] mb-4">Premium memory foam. Deep body-hugging feel.</p>
+                        <div class="text-[#C5A065] font-semibold text-lg">$2,349 - $2,999</div>
+                    </div>
+                </div>
+                
+                <!-- Product 6: Saatva HD -->
+                <div class="product-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Saatva HD Mattress" 
+                         class="w-full h-48 object-cover bg-gray-100"
+                         onerror="this.src='https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                    <div class="p-6">
+                        <h3 class="serif-title text-xl font-semibold mb-2 text-[#0D1B3A]">Saatva HD</h3>
+                        <p class="text-sm text-[#64748B] mb-4">Heavy-duty support. Stronger coils.</p>
+                        <div class="text-[#C5A065] font-semibold text-lg">$2,349 - $2,999</div>
+                    </div>
+                </div>
+                
+                <!-- Product 7: Saatva Rx -->
+                <div class="product-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Saatva Rx Mattress" 
+                         class="w-full h-48 object-cover bg-gray-100"
+                         onerror="this.src='https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                    <div class="p-6">
+                        <h3 class="serif-title text-xl font-semibold mb-2 text-[#0D1B3A]">Saatva Rx</h3>
+                        <p class="text-sm text-[#64748B] mb-4">For back/joint relief. Therapeutic support core.</p>
+                        <div class="text-[#C5A065] font-semibold text-lg">~$1,944</div>
+                    </div>
+                </div>
+                
+                <!-- Product 8: Solaire -->
+                <div class="product-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Saatva Solaire Adjustable Mattress" 
+                         class="w-full h-48 object-cover bg-gray-100"
+                         onerror="this.src='https://images.unsplash.com/photo-1556228578-0d85b1a4d571?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                    <div class="p-6">
+                        <h3 class="serif-title text-xl font-semibold mb-2 text-[#0D1B3A]">Solaire</h3>
+                        <p class="text-sm text-[#64748B] mb-4">Adjustable firmness. 50 settings.</p>
+                        <div class="text-[#C5A065] font-semibold text-lg">$3,949 - $4,599</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About & Stats Section -->
+    <section id="about" class="bg-[#FDFCF0] section-padding">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20" data-aos="fade-up" data-aos-duration="1000">
+                <h2 class="h2-section text-[#0D1B3A] mb-6">
+                    A Glimpse of Your <span class="cursive-accent text-2xl">Advantage</span>
+                </h2>
+                <p class="text-lg text-[#0D1B3A] max-w-3xl mx-auto leading-relaxed">
+                    At Salesman Solutions, we understand that luxury hospitality demands perfection in every detail. Our expertise in luxury logistics, meticulous design attention, and white-glove service sets us apart.
+                </p>
+            </div>
+            
+            <!-- Stats Grid -->
+            <div class="grid md:grid-cols-4 gap-12 mt-20">
+                <div class="text-center" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+                    <div class="stat-number mb-4">400+</div>
+                    <p class="text-[#0D1B3A] text-sm uppercase tracking-widest font-light">Luxury Properties</p>
+                </div>
+                <div class="text-center" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="stat-number mb-4">99%</div>
+                    <p class="text-[#0D1B3A] text-sm uppercase tracking-widest font-light">On-Time Delivery</p>
+                </div>
+                <div class="text-center" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+                    <div class="stat-number mb-4">15</div>
+                    <p class="text-[#0D1B3A] text-sm uppercase tracking-widest font-light">Years Experience</p>
+                </div>
+                <div class="text-center" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                    <div class="stat-number mb-4">24/7</div>
+                    <p class="text-[#0D1B3A] text-sm uppercase tracking-widest font-light">Concierge Support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Showcase Section -->
+    <section id="portfolio" class="bg-[#FDFCF0] section-padding">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up" data-aos-duration="1000">
+                <h2 class="h2-section text-[#0D1B3A] mb-4">
+                    A Portfolio of <span class="cursive-accent">Excellence</span>
+                </h2>
+                <p class="text-lg text-[#0D1B3A] max-w-3xl mx-auto leading-relaxed">
+                    Discover the transformative power of our renovation and logistics services through our completed projects.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Portfolio Item 1 -->
+                <div class="portfolio-item" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                         alt="Hotel Renovation Construction Process" 
+                         class="w-full h-64 object-cover rounded-2xl mb-4 shadow-lg"
+                         onerror="this.src='https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                    <h3 class="serif-title text-xl font-semibold text-[#0D1B3A] mb-2">Hotel Renovation: <span class="cursive-accent text-lg">Transformation</span> Process</h3>
+                    <p class="text-[#0D1B3A] text-sm">Complete interior design transformation showcasing custom wallpapers and luxury finishes.</p>
+                </div>
+                
+                <!-- Portfolio Item 2 -->
+                <div class="portfolio-item" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                         alt="Hotel Construction and Renovation" 
+                         class="w-full h-64 object-cover rounded-2xl mb-4 shadow-lg"
+                         onerror="this.src='https://images.unsplash.com/photo-1556228720-195a672e8a03?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                    <h3 class="serif-title text-xl font-semibold text-[#0D1B3A] mb-2">Construction <span class="cursive-accent text-lg">Excellence</span></h3>
+                    <p class="text-[#0D1B3A] text-sm">Professional construction and renovation services ensuring minimal disruption to operations.</p>
+                </div>
+                
+                <!-- Portfolio Item 3 -->
+                <div class="portfolio-item" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                         alt="Luxury Hotel Interior Design" 
+                         class="w-full h-64 object-cover rounded-2xl mb-4 shadow-lg"
+                         onerror="this.src='https://images.unsplash.com/photo-1618221195710-dd6b41faaea8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                    <h3 class="serif-title text-xl font-semibold text-[#0D1B3A] mb-2">Luxury Design: <span class="cursive-accent text-lg">Sophistication</span></h3>
+                    <p class="text-[#0D1B3A] text-sm">Bespoke interior design featuring elegant custom wallpapers and sophisticated finishes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact / Footer Section -->
+    <section id="contact" class="bg-[#0D1B3A] text-[#FDFCF0] section-padding">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="h2-section mb-8 text-[#FDFCF0]" data-aos="fade-up" data-aos-duration="1000">
+                Ready to <span class="cursive-accent text-2xl">Elevate</span> Your Guest Experience?
+            </h2>
+            <p class="text-xl mb-12 text-gray-200 font-light leading-relaxed" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                Let's explore how Salesman Solutions can transform your property and create unforgettable experiences for your guests.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                <a href="tel:+19548306310" class="btn-outline text-center">
+                    Call: 954-830-6310
+                </a>
+                <a href="mailto:jaheimsalesman@gmail.com" class="btn-outline text-center">
+                    Email Us
+                </a>
+            </div>
+            <div class="space-y-6 text-lg" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+                <p>
+                    <a href="tel:9548306310" class="hover:text-[#C5A065] transition duration-1000">Phone: 954-830-6310</a>
+                </p>
+                <p>
+                    <a href="mailto:jaheimsalesman@gmail.com" class="hover:text-[#C5A065] transition duration-1000">Email: jaheimsalesman@gmail.com</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#0D1B3A] text-[#FDFCF0] py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <h3 class="logo text-xl mb-4">SALESMAN SOLUTIONS</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Prestige hospitality solutions for the modern hotelier.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 uppercase tracking-widest text-sm">Services</h4>
+                    <ul class="space-y-2 text-gray-300 text-sm">
+                        <li><a href="#services" class="hover:text-[#C5A065] transition duration-1000">Mattress Logistics</a></li>
+                        <li><a href="#services" class="hover:text-[#C5A065] transition duration-1000">Renovation & Design</a></li>
+                        <li><a href="#services" class="hover:text-[#C5A065] transition duration-1000">Strategic Partnership</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 uppercase tracking-widest text-sm">Company</h4>
+                    <ul class="space-y-2 text-gray-300 text-sm">
+                        <li><a href="#about" class="hover:text-[#C5A065] transition duration-1000">About Us</a></li>
+                        <li><a href="#saatva" class="hover:text-[#C5A065] transition duration-1000">Saatva Collection</a></li>
+                        <li><a href="#contact" class="hover:text-[#C5A065] transition duration-1000">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 uppercase tracking-widest text-sm">Contact</h4>
+                    <ul class="space-y-2 text-gray-300 text-sm">
+                        <li><a href="mailto:jaheimsalesman@gmail.com" class="hover:text-[#C5A065] transition duration-1000">jaheimsalesman@gmail.com</a></li>
+                        <li><a href="tel:9548306310" class="hover:text-[#C5A065] transition duration-1000">954-830-6310</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-600 pt-8 text-center text-gray-400 text-sm">
+                <p>&copy; 2024 Salesman Solutions. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- JavaScript -->
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 100
+        });
+        
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 100;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+        
+        // CTA button handlers
+        document.querySelectorAll('.btn-outline, .btn-primary').forEach(button => {
+            button.addEventListener('click', function(e) {
+                if (this.textContent.includes('Inquire') || this.textContent.includes('Consultation') || this.textContent.includes('Discover')) {
+                    e.preventDefault();
+                    const contactSection = document.getElementById('contact');
+                    if (contactSection) {
+                        const offsetTop = contactSection.offsetTop - 100;
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+        
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+                if (currentScroll > 50) {
+                navbar.style.backgroundColor = 'rgba(13, 27, 58, 0.95)';
+                navbar.style.backdropFilter = 'blur(10px)';
+            } else {
+                navbar.style.backgroundColor = 'transparent';
+                navbar.style.backdropFilter = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
