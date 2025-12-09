@@ -1,0 +1,19 @@
+{
+  "name": "salesman-solutions",
+  "version": "1.0.0",
+  "description": "Luxury hospitality partner website for Salesman Solutions",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'No build required - static HTML site'"
+  },
+  "keywords": [
+    "hospitality",
+    "luxury",
+    "hotel",
+    "renovation",
+    "mattress"
+  ],
+  "author": "Salesman Solutions",
+  "license": "MIT"
+}
+

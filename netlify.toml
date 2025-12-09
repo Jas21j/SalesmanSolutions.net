@@ -3,6 +3,8 @@
 
 [build]
   # No build command needed - this is a static HTML file
+  # Set empty command to prevent Netlify from looking for build scripts
+  command = ""
   # Publish the root directory where index.html is located
   publish = "."
 
