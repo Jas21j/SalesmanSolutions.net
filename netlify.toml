@@ -1,0 +1,24 @@
+# Netlify Configuration File
+# This file ensures proper deployment settings for the static HTML site
+
+[build]
+  # No build command needed - this is a static HTML file
+  # Publish the root directory where index.html is located
+  publish = "."
+
+# Optional: Redirect all routes to index.html (for SPA-like behavior)
+# Not strictly necessary for single-page site, but good practice
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Optional: Security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
